@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Oleksii Shabalin](https://up.htmlacademy.ru/javascript/24/user/1707573).
-* Наставник: `Неизвестно`.
+* Наставник: [Сергей Сочиенко](https://up.htmlacademy.ru/javascript/24/user/609785).
 
 ---
 

@@ -33,9 +33,9 @@ function getRandomPositiveInteger (min, max) {
   return Math.floor(result);
 }
 
+
 const SIMILAR_POST_COUNT = 25;
-const DESCRIPTION_ID = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25];
-const PHOTO_NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25];
+
 const DESCRIPTION_TEXTS = [
   'Описание фотографии - 1',
   'Описание фотографии - 2',
@@ -101,6 +101,12 @@ const USER_COMMENTS = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
 
+const createArrayOrderedNumbers = (elements) => Array.from({length: elements}, (el1, el2) => el2 + 1);
+
+const DESCRIPTION_IDS = createArrayOrderedNumbers(SIMILAR_POST_COUNT);
+const PHOTO_NUMBERS = createArrayOrderedNumbers(SIMILAR_POST_COUNT);
+const COMMENT_IDS = createArrayOrderedNumbers(10 * SIMILAR_POST_COUNT);
+
 const getRandomArrayElement = (elements) => {
   const random = getRandomPositiveInteger (0, elements.length - 1);
   const result = elements[random];
@@ -108,10 +114,8 @@ const getRandomArrayElement = (elements) => {
   return result;
 };
 
-const valueMaxId = getRandomArrayElement(Array.from({length: SIMILAR_POST_COUNT}, () => getRandomPositiveInteger(1, 1000)));
-
 const createComment = () => ({
-  id: getRandomPositiveInteger(1, valueMaxId),
+  id: getRandomArrayElement(COMMENT_IDS),
   avatar: `img/avatar-${  getRandomPositiveInteger (1, 6)  }.svg`,
   message: USER_COMMENTS[getRandomPositiveInteger (0, USER_COMMENTS.length - 1)],
   name: USER_NAMES[getRandomPositiveInteger (0, USER_NAMES.length - 1)],
@@ -119,13 +123,16 @@ const createComment = () => ({
 
 const createPost = () => ({
 
-  id: getRandomArrayElement(DESCRIPTION_ID),
+  id: getRandomArrayElement(DESCRIPTION_IDS),
   url: `photos/${  getRandomArrayElement(PHOTO_NUMBERS)  }.jpg`,
   description: getRandomArrayElement(DESCRIPTION_TEXTS),
   likes: getRandomPositiveInteger (15, 200),
   comments: Array.from({length: getRandomPositiveInteger(1, 6)}, createComment),
 });
 
-const similarPosts = Array.from({length: SIMILAR_POST_COUNT}, createPost);
+const similarPosts = () => {
+  const result = Array.from({length: SIMILAR_POST_COUNT}, createPost);
+  return result;
+};
 
 similarPosts();

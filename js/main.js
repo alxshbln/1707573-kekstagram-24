@@ -1,4 +1,6 @@
-import {similarPosts} from '/js/utils.js';
-import '/js/pictures.js';
+import {showUsersPictures} from '/js/pictures.js';
+import {showFullImage} from '/js/full-image.js';
 
-similarPosts();
+
+const posts = showUsersPictures();
+showFullImage(posts);

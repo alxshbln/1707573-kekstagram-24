@@ -1,5 +1,6 @@
 import {SIMILAR_POST_COUNT, DESCRIPTION_TEXTS, USER_NAMES, USER_COMMENTS} from '/js/data.js';
 
+
 function getRandomPositiveInteger (min, max) {
   const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
   const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
@@ -30,7 +31,6 @@ const createComment = () => ({
 });
 
 const createPost = () => ({
-
   id: getRandomArrayElement(DESCRIPTION_IDS),
   url: `photos/${  getRandomArrayElement(PHOTO_NUMBERS)  }.jpg`,
   description: getRandomArrayElement(DESCRIPTION_TEXTS),

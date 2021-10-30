@@ -1,4 +1,32 @@
 import '/js/data.js';
+import {clearPopupData} from '/js/pictures.js';
+
+
+const popup = document.querySelector('.big-picture');
+
+
+const closePopup = (callback) => {
+  popup.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+  clearPopupData();
+
+  document.removeEventListener('keydown', callback);
+};
+
+
+const handleKeyDown = (evt) => {
+
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    closePopup(handleKeyDown);
+  }
+};
+
+
+const modalCloseElement = document.querySelector('#picture-cancel');
+modalCloseElement.addEventListener('click', () => {
+  closePopup();
+});
 
 
 const createComment = function (message, link) {
@@ -18,8 +46,8 @@ const createComment = function (message, link) {
   return li;
 };
 
+
 const showPopup = function (post) {
-  const popup = document.querySelector('.big-picture');
   popup.classList.remove('hidden');
 
   const bigPictureImg = popup.querySelector('.big-picture__img img');
@@ -39,41 +67,25 @@ const showPopup = function (post) {
   });
 
   document.body.classList.add('modal-open');
+
+  document.addEventListener('keydown', handleKeyDown);
 };
 
-const showFullImage = function (posts) {
+
+const watchClickThumbnail = function (posts) {
   const picturesContainer = document.querySelector('.pictures');
 
   picturesContainer.addEventListener('click', (evt) => {
-    const socialCommentsCount = document.querySelector('.social__comment-count');
-    const commentsLoader = document.querySelector('.comments-loader');
-    socialCommentsCount.classList.add('hidden');
-    commentsLoader.classList.add('hidden');
+    if (!evt.target.matches('img[class="picture__img"]')) {
+      return;
+    }
 
-    const commentsBlock = document.querySelector('.social__comments');
-    commentsBlock.innerHTML = '';
     const postId = +(evt.target.parentElement.getAttribute('data-id'));
     const post = posts.find((item) => item.id === postId);
     showPopup(post);
-  });
 
+  });
 };
 
-const modalCloseElement = document.querySelector('#picture-cancel');
-modalCloseElement.addEventListener('click', () => {
-  const popup = document.querySelector('.big-picture');
-  popup.classList.add('hidden');
-  document.body.classList.remove('modal-open');
-});
 
-document.addEventListener('keydown', (evt) => {
-  const popup = document.querySelector('.big-picture');
-
-  if (evt.key === 'Escape') {
-    evt.preventDefault();
-    popup.classList.add('hidden');
-    document.body.classList.remove('modal-open');
-  }
-});
-
-export { showFullImage };
+export { watchClickThumbnail };

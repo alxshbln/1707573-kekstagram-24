@@ -1,15 +1,13 @@
 import '/js/data.js';
-import {similarPosts} from '/js/utils.js';
 
-const showUsersPictures = function () {
-  const picturesContainer = document.querySelector('.pictures');
-  const templateFragment = document.querySelector('#picture').content;
-  const template = templateFragment.querySelector('.picture');
+const picturesContainer = document.querySelector('.pictures');
+const templateFragment = document.querySelector('#picture').content;
+const template = templateFragment.querySelector('.picture');
 
-  const similarPictures = similarPosts();
+const showUsersPictures = function (arr) {
   const fragment = document.createDocumentFragment();
 
-  similarPictures.forEach(({url, likes, comments, id}) => {
+  arr.forEach(({url, likes, comments, id}) => {
     const pictureElement = template.cloneNode(true);
     pictureElement.querySelector('.picture__img').src = url;
     pictureElement.querySelector('.picture__likes').textContent = likes;
@@ -19,8 +17,19 @@ const showUsersPictures = function () {
   });
 
   picturesContainer.appendChild(fragment);
-
-  return similarPictures;
 };
 
-export {showUsersPictures};
+const clearPopupData = () => {
+  const socialCommentsCount = document.querySelector('.social__comment-count');
+  const commentsLoader = document.querySelector('.comments-loader');
+  socialCommentsCount.classList.add('hidden');
+  commentsLoader.classList.add('hidden');
+
+  const commentsBlock = document.querySelector('.social__comments');
+  commentsBlock.innerHTML = '';
+};
+
+export {
+  showUsersPictures,
+  clearPopupData
+};

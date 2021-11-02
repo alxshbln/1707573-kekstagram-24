@@ -1,9 +1,16 @@
 import '/js/data.js';
-import {clearPopupData} from '/js/pictures.js';
-
 
 const popup = document.querySelector('.big-picture');
 
+const clearPopupData = () => {
+  const socialCommentsCount = document.querySelector('.social__comment-count');
+  const commentsLoader = document.querySelector('.comments-loader');
+  socialCommentsCount.classList.add('hidden');
+  commentsLoader.classList.add('hidden');
+
+  const commentsBlock = document.querySelector('.social__comments');
+  commentsBlock.innerHTML = '';
+};
 
 const closePopup = (callback) => {
   popup.classList.add('hidden');
@@ -83,7 +90,6 @@ const watchClickThumbnail = function (posts) {
     const postId = +(evt.target.parentElement.getAttribute('data-id'));
     const post = posts.find((item) => item.id === postId);
     showPopup(post);
-
   });
 };
 

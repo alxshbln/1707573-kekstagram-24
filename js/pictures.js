@@ -19,17 +19,6 @@ const showUsersPictures = function (arr) {
   picturesContainer.appendChild(fragment);
 };
 
-const clearPopupData = () => {
-  const socialCommentsCount = document.querySelector('.social__comment-count');
-  const commentsLoader = document.querySelector('.comments-loader');
-  socialCommentsCount.classList.add('hidden');
-  commentsLoader.classList.add('hidden');
-
-  const commentsBlock = document.querySelector('.social__comments');
-  commentsBlock.innerHTML = '';
-};
-
 export {
-  showUsersPictures,
-  clearPopupData
+  showUsersPictures
 };

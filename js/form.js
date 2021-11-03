@@ -7,9 +7,8 @@ const inputComment = document.querySelector('.text__description');
 const MAX_COMMENT_LENGTH = 140;
 const re = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
 
-
 const closePopup = (callback) => {
-  if (document.activeElement === inputComment) {
+  if (document.activeElement === inputComment || document.activeElement === inputHashtag) {
     return;
   }
   imageEditForm.classList.add('hidden');
@@ -25,43 +24,58 @@ const handleKeyDown = (evt) => {
   }
 };
 
+const makePopupVisible = () => {
+  imageEditForm.classList.remove('hidden');
+  document.body.classList.add('modal-open');
+  document.addEventListener('keydown', handleKeyDown);
+};
+
 const handleCloseButtonClick = (evt) => {
   evt.preventDefault();
   closePopup(handleKeyDown);
 };
 
 btnClose.addEventListener('click', handleCloseButtonClick);
-document.addEventListener('keydown', handleKeyDown);
 
 userFileInput.addEventListener('change', () => {
-  imageEditForm.classList.remove('hidden');
-  document.body.classList.add('modal-open');
-  document.addEventListener('keydown', handleKeyDown);
+  makePopupVisible();
 });
 
+
 const validateHashtags = (val) => {
-  const tagArray = val.split(' ').filter((item) => !!item);
+  const tagArray = val.split(' ').filter((item) => !!item).map((item) => item.toLowerCase().trim());
+
   let errorString = '';
+  let index = 0;
+
   for (const tagName of tagArray) {
-    if (!tagName.trim().match(re)) {
+
+    if (!tagName.match(re)) {
       errorString = 'Неправильный формат тега';
     }
+
+    if (tagArray.indexOf(tagName) !== index) {
+      errorString = 'Хештеги не могут повторяться';
+    }
+
+    index++;
   }
+
   if (!errorString && tagArray.length > 5) {
     errorString = 'Максимум 5 хештегов';
   }
-  inputHashtag.setCustomValidity(errorString);
-  inputHashtag.reportValidity();
-  return !errorString;
+
+  return errorString;
 };
 
 const handleHashtagInput = (evt) => {
-  if (!evt.target.value) {
+  if (!evt.target) {
     return;
   }
-  validateHashtags(evt.target.value);
-};
 
+  inputHashtag.setCustomValidity(validateHashtags(evt.target.value));
+  inputHashtag.reportValidity();
+};
 
 const validateComment = (val) => {
   let errorString = '';
@@ -75,7 +89,7 @@ const validateComment = (val) => {
 
 
 const handleCommentInput = (evt) => {
-  if (!evt.target.value) {
+  if (!evt.target) {
     return;
   }
   validateComment(evt.target.value);
@@ -84,20 +98,3 @@ const handleCommentInput = (evt) => {
 inputHashtag.addEventListener('input', handleHashtagInput);
 
 inputComment.addEventListener('input', handleCommentInput);
-
-imageEditForm.addEventListener('submit', (evt) => {
-  evt.preventDefault;
-  const hashtagValue = inputHashtag.target.value;
-  const commentValue = inputComment.target.value;
-
-  let hasError = false;
-
-  hasError = !validateHashtags(hashtagValue);
-  hasError = !validateComment(commentValue);
-
-  if (hasError) {
-    return;
-  }
-
-  imageEditForm.submit();
-});

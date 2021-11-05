@@ -4,8 +4,10 @@ const btnClose = document.querySelector('#upload-cancel');
 const inputHashtag = document.querySelector('.text__hashtags');
 const inputComment = document.querySelector('.text__description');
 
+
 const MAX_COMMENT_LENGTH = 140;
 const re = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
+
 
 const closePopup = (callback) => {
   if (document.activeElement === inputComment || document.activeElement === inputHashtag) {
@@ -69,10 +71,6 @@ const validateHashtags = (val) => {
 };
 
 const handleHashtagInput = (evt) => {
-  if (!evt.target) {
-    return;
-  }
-
   inputHashtag.setCustomValidity(validateHashtags(evt.target.value));
   inputHashtag.reportValidity();
 };
@@ -89,9 +87,6 @@ const validateComment = (val) => {
 
 
 const handleCommentInput = (evt) => {
-  if (!evt.target) {
-    return;
-  }
   validateComment(evt.target.value);
 };
 

@@ -35,7 +35,7 @@ const createPost = () => ({
   url: `photos/${  getRandomArrayElement(PHOTO_NUMBERS)  }.jpg`,
   description: getRandomArrayElement(DESCRIPTION_TEXTS),
   likes: getRandomPositiveInteger (15, 200),
-  comments: Array.from({length: getRandomPositiveInteger(1, 6)}, createComment),
+  comments: Array.from({length: getRandomPositiveInteger(1, 126)}, createComment),
 });
 
 const similarPosts = () => {
